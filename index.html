@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Hikari AI — Landing</title>
+<!-- Fuente limpia similar al diseño -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#000;
+    --text:#ffffff;
+    --muted:#bfbfbf;
+    --accent:#ffffff;
+    --outline-rgba: rgba(255,255,255,0.12);
+  }
+  /* Reset ligero */
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:"Inter",system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    background:var(--bg);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    overflow-x:hidden;
+  }
+
+  /* Contenedor general centrado verticalmente */
+  .wrap{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:40px 60px;
+  }
+
+  /* Navegación superior */
+  nav{
+    display:flex;
+    gap:48px;
+    align-items:center;
+    font-weight:600;
+  }
+  nav a{
+    color:var(--text);
+    text-decoration:none;
+    font-size:18px;
+    opacity:0.95;
+  }
+
+  /* Hero */
+  .hero{
+    display:flex;
+    gap:40px;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:50px;
+  }
+
+  .left{
+    flex:1;
+    max-width:900px;
+  }
+  .eyebrow{
+    display:block;
+    height:24px;
+  }
+  h1{
+    margin:0;
+    font-weight:800;
+    letter-spacing:-1px;
+    line-height:0.95;
+    font-size:96px; /* grande en escritorio */
+    color:var(--text);
+  }
+  /* Ajustes para que las líneas queden como en la imagen */
+  h1 .thin{font-weight:300; display:block}
+  h1 .big{display:block}
+
+  /* Right column con la imagen */
+  .right{
+    width:420px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:18px;
+    position:relative;
+  }
+  .avatar-wrap{
+    width:420px;
+    border-top:4px solid rgba(255,255,255,0.12);
+    padding-top:10px;
+    display:flex;
+    justify-content:center;
+  }
+  .avatar{
+    width:320px;
+    max-width:100%;
+    display:block;
+    transform:translateY(-10px);
+  }
+
+  /* Botón principal dentro del marco negro con borde */
+  .cta-frame{
+    background:transparent;
+    border:2px solid rgba(255,255,255,0.12);
+    padding:12px 18px;
+    display:inline-block;
+    margin-top:6px;
+  }
+  .cta{
+    display:inline-block;
+    background:#f6f6f6;
+    color:#111;
+    padding:10px 20px;
+    border-radius:8px;
+    font-weight:700;
+    text-decoration:none;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.25);
+  }
+
+  /* Footer-like buttons en fila */
+  .bottom-actions{
+    display:flex;
+    gap:18px;
+    margin-top:56px;
+    align-items:center;
+  }
+  .outline-btn{
+    border:2px solid rgba(255,255,255,0.2);
+    padding:18px 28px;
+    min-width:260px;
+    text-align:center;
+    background:transparent;
+    color:var(--text);
+    font-weight:600;
+    border-radius:4px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+  }
+  .arrow{
+    width:36px;
+    height:36px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-left:1px solid rgba(255,255,255,0.06);
+  }
+  .store-badge{
+    height:36px;
+  }
+
+  /* Responsive */
+  @media (max-width:1100px){
+    h1{font-size:72px}
+    .right{width:360px}
+  }
+  @media (max-width:900px){
+    .hero{flex-direction:column; align-items:flex-start; gap:28px}
+    .right{width:100%}
+    h1{font-size:48px}
+    .avatar-wrap{width:100%; display:flex; justify-content:flex-end}
+    .avatar{width:240px}
+    .bottom-actions{flex-direction:column; align-items:stretch}
+    .outline-btn{min-width:unset}
+  }
+  @media (max-width:420px){
+    h1{font-size:36px; line-height:1}
+    body{padding:18px}
+  }
+
+  /* Pequeñas interacciones */
+  .cta:hover{transform:translateY(-2px)}
+  .outline-btn:hover{background:rgba(255,255,255,0.03); cursor:pointer}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <a href="#">Nosotros</a>
+      <a href="#">Como<br>empezar</a>
+    </nav>
+
+    <main class="hero" role="main" aria-labelledby="hero-title">
+      <div class="left">
+        <span class="eyebrow"></span>
+        <h1 id="hero-title">
+          <span class="thin">¿Listo/a para</span>
+          <span class="big">explorar con</span>
+          <span class="big">Hikari AI?</span>
+        </h1>
+      </div>
+
+      <aside class="right" aria-label="Imagen y llamada a la acción">
+        <div class="avatar-wrap" aria-hidden="true">
+          <!-- Imagen principal: pon aquí el archivo hikari.png -->
+          <img src="hikari.png" alt="Ilustración de personaje Hikari" class="avatar" />
+        </div>
+
+        <div style="width:100%; display:flex; justify-content:center;">
+          <div class="cta-frame">
+            <a class="cta" id="enter-btn" href="#explorar">¡Entra YA!</a>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <section class="bottom-actions" aria-label="Enlaces de tienda y mensaje">
+      <div class="outline-btn">
+        <span>¡Todo lo que busque es un solo lugar!</span>
+      </div>
+
+      <div class="outline-btn" onclick="fakeLink('appstore')">
+        <span style="flex:1; text-align:center;"> </span>
+        <img src="appstore.png" alt="Pronto en App Store" class="store-badge" />
+      </div>
+
+      <div class="outline-btn" onclick="fakeLink('playstore')">
+        <img src="playstore.png" alt="Pronto en Google Play" class="store-badge" />
+      </div>
+    </section>
+  </div>
+
+<script>
+  // Comportamientos mínimos: alerta sutil y foco para que parezca "real"
+  document.getElementById('enter-btn').addEventListener('click', function(e){
+    e.preventDefault();
+    // efecto visual y luego scroll a sección inferior simulada
+    this.classList.add('clicked');
+    window.scrollTo({top: document.body.scrollHeight, behavior:'smooth'});
+    setTimeout(()=> alert('Bienvenido a Hikari AI — (demo local) 😼'), 700);
+  });
+
+  function fakeLink(which){
+    // Simula que las tiendas aún no están listas (como en la imagen: "Pronto")
+    if(which === 'appstore'){
+      alert('Pronto en App Store — todavía no disponible.');
+    } else {
+      alert('Pronto en Google Play — todavía no disponible.');
+    }
+  }
+
+  // Pequeña mejora: ajustar foco si el usuario tabula
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){
+      const active = document.activeElement;
+      if(active && active.classList.contains('cta')){ active.click(); }
+    }
+  });
+</script>
+</body>
+</html>
