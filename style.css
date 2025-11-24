@@ -1,0 +1,150 @@
+/* Reset Básico y Fondo Oscuro */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header (Navegación y Etiqueta BETA) */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 16px;
+}
+
+.beta-tag {
+    font-size: 14px;
+    /* Usando la misma fuente de la imagen */
+    font-weight: bold; 
+    color: white; /* El texto en la imagen original es blanco/gris claro */
+}
+
+/* Contenido Principal (Main) */
+main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Alineado arriba para replicar la posición */
+    padding: 120px 80px;
+    flex-grow: 1;
+}
+
+/* Sección Izquierda */
+.content-left {
+    max-width: 50%;
+}
+
+.content-left h1 {
+    font-size: 60px; /* Tamaño grande como en la imagen */
+    font-weight: 500; /* No completamente bold */
+    line-height: 1.1;
+    margin-bottom: 120px; /* Espacio para separar del bloque inferior */
+}
+
+.highlight {
+    /* El texto "Hikari AI" parece ser blanco puro sin fondo de color */
+    color: white;
+}
+
+/* Bloques de Aplicaciones (Inferior Izquierda) */
+.app-links-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.app-link {
+    background-color: #000;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+    min-width: 250px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrow-separator {
+    font-size: 30px;
+    color: #fff;
+    font-weight: 300;
+}
+
+.app-button {
+    background-color: #000;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 150px;
+    height: 40px;
+}
+
+.app-button .icon {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+/* Sección Derecha (Avatar e Imagen) */
+.content-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -60px; /* Ajustar posición vertical de la imagen */
+}
+
+.image-container {
+    position: relative;
+    width: 280px; /* Ajusta este ancho según el tamaño de tu imagen */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hikari-avatar {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    z-index: 1;
+    /* Ajustes para el efecto de "cortado" */
+    margin-bottom: -15px;
+}
+
+.underline {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+    z-index: 2;
+    transform: translateY(15px); /* Ajusta para que coincida con el borde inferior del avatar */
+}
+
+/* Botón de Llamada a la Acción */
+.cta-button {
+    background-color: #000;
+    border: 1px solid #fff;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 30px;
+    cursor: pointer;
+    margin-top: 50px; /* Espacio debajo de la línea del avatar */
+}
