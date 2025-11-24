@@ -51,6 +51,7 @@ main {
     font-weight: 500; /* No completamente bold */
     line-height: 1.1;
     margin-bottom: 120px; /* Espacio para separar del bloque inferior */
+    text-align: left; /* Asegura la alineación a la izquierda en escritorio */
 }
 
 .highlight {
@@ -76,6 +77,10 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.app-link p {
+    margin: 0;
 }
 
 .arrow-separator {
@@ -147,4 +152,94 @@ main {
     padding: 10px 30px;
     cursor: pointer;
     margin-top: 50px; /* Espacio debajo de la línea del avatar */
+}
+
+
+/* --- MEDIA QUERY PARA DISPOSITIVOS MÓVILES (Max-width 768px) --- */
+@media (max-width: 768px) {
+    /* 1. Ajustes Generales y Header */
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px 20px 0;
+    }
+    
+    .nav-links {
+        margin-bottom: 10px;
+    }
+
+    .nav-links a {
+        font-size: 14px;
+        margin-right: 15px;
+    }
+
+    .beta-tag {
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    /* 2. Contenido Principal */
+    main {
+        flex-direction: column; /* Apila las secciones (izquierda y derecha) */
+        padding: 40px 20px;
+        align-items: center;
+    }
+
+    .content-left, .content-right {
+        max-width: 100%; /* Ocupa todo el ancho */
+        text-align: center;
+        width: 100%;
+    }
+    
+    .content-left h1 {
+        text-align: center;
+    }
+
+    /* 3. Avatar y Botón CTA */
+    .content-right {
+        order: -1; /* Mueve la imagen (derecha) arriba en móvil */
+        margin-top: 0;
+        margin-bottom: 30px;
+    }
+    
+    .image-container {
+        width: 100%;
+        max-width: 300px; /* Limita el tamaño del avatar para que no sea GIGANTE */
+    }
+
+    .hikari-avatar {
+        max-height: 350px; 
+        object-fit: contain;
+    }
+    
+    .cta-button {
+        margin-top: 20px;
+        font-size: 18px;
+        padding: 12px 40px;
+    }
+
+    /* 4. Texto principal */
+    .content-left h1 {
+        font-size: 36px;
+        margin-bottom: 40px; /* Menos espacio debajo del título */
+    }
+    
+    /* 5. Bloques de Aplicaciones (Parte Inferior) */
+    .app-links-row {
+        flex-direction: column; /* Apila los botones de las tiendas */
+        gap: 10px;
+    }
+    
+    .app-link, .app-button {
+        width: 90%; 
+        min-width: unset;
+        height: auto;
+        padding: 15px 20px;
+        font-size: 16px;
+    }
+    
+    /* Oculta las flechas separadoras que no tienen sentido apiladas */
+    .arrow-separator {
+        display: none;
+    }
 }
