@@ -1,74 +1,129 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mi Chatbot</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Hikari AI — Landing Limpia</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #111;
-        color: #eee;
-    }
-    #chat {
-        height: 90vh;
-        overflow-y: auto;
-        padding: 20px;
-        background: #181818;
-    }
-    .msg {
-        margin-bottom: 15px;
-        padding: 10px;
-        border-radius: 8px;
-        max-width: 70%;
-    }
-    .user {
-        background: #333;
-        text-align: right;
-        margin-left: auto;
-    }
-    .bot {
-        background: #222;
-        color: #fff;
-        border-left: 3px solid #555;
-    }
-    #input-area {
-        height: 10vh;
-        display: flex;
-        background: #000;
-        padding: 10px;
-    }
-    #msg-input {
-        flex: 1;
-        background: #111;
-        border: none;
-        color: #fff;
-        padding: 10px;
-        border-radius: 6px;
-    }
-    #send-btn {
-        margin-left: 10px;
-        background: #444;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        cursor: pointer;
-        border-radius: 6px;
-    }
+  :root{
+    --bg:#000;
+    --text:#fff;
+    --muted:#bfbfbf;
+    --accent:#f6f6f6;
+  }
+
+  body{
+    margin:0;
+    font-family:"Inter",system-ui;
+    background:var(--bg);
+    color:var(--text);
+  }
+
+  .wrap{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding:28px 48px;
+    gap:28px;
+  }
+
+  nav{
+    display:flex;
+    gap:48px;
+    font-weight:600;
+  }
+  nav a{
+    color:var(--text);
+    text-decoration:none;
+    font-size:18px;
+    position:relative;
+  }
+
+  .hero{
+    display:flex;
+    gap:40px;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:8px;
+  }
+
+  h1{
+    margin:0;
+    font-weight:800;
+    font-size:92px;
+    line-height:0.95;
+  }
+
+  .right{
+    width:420px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .avatar{
+    width:320px;
+    border-radius:6px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.6);
+    animation:float 4.8s ease-in-out infinite;
+  }
+
+  @keyframes float{
+    0%{transform:translateY(-4px)}
+    50%{transform:translateY(6px)}
+    100%{transform:translateY(-4px)}
+  }
+
+  .cta-frame{
+    margin-top:12px;
+    border:2px solid rgba(255,255,255,0.12);
+    padding:12px 18px;
+  }
+
+  .cta{
+    background:var(--accent);
+    color:#111;
+    padding:12px 22px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:800;
+    box-shadow:0 6px 0 rgba(0,0,0,0.25);
+    transition:transform .18s, box-shadow .18s;
+    display:inline-block;
+  }
+  .cta:hover{transform:translateY(-6px);}
+  .cta:active{transform:translateY(-2px);}
 </style>
 </head>
 
 <body>
+  <div class="wrap">
 
-<div id="chat"></div>
+    <nav>
+      <a href="#">Inicio</a>
+      <a href="#">Funciones</a>
+      <a href="#">Contacto</a>
+    </nav>
 
-<div id="input-area">
-    <input id="msg-input" placeholder="Escribe aquí..." />
-    <button id="send-btn">Enviar</button>
-</div>
+    <div class="hero">
+      <div class="left">
+        <h1>
+          <span class="thin">Bienvenido a</span>
+          <span class="big">Hikari AI</span>
+        </h1>
+      </div>
 
-<script src="bot.js"></script>
+      <div class="right">
+        <img class="avatar" src="https://i.imgur.com/YqT4E0U.png" alt="avatar">
+        <div class="cta-frame">
+          <a class="cta" href="chat.html">Entra ya</a>
+        </div>
+      </div>
+    </div>
 
+  </div>
 </body>
 </html>
