@@ -3,7 +3,8 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EXAGON AI - Login with Google</title>
+  <title>EXAGON AI - Real Google Login</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="/_sdk/data_sdk.js"></script>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
@@ -52,7 +53,7 @@
       border-radius: 20px;
       padding: 40px 32px;
       text-align: center;
-      max-width: 400px;
+      max-width: 420px;
       width: 100%;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     }
@@ -71,48 +72,87 @@
     .login-subtitle {
       font-size: 18px;
       color: #808080;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
       line-height: 1.4;
     }
 
-    .google-login-btn {
-      width: 100%;
-      padding: 14px 24px;
-      background: #ffffff;
-      border: none;
+    .login-info {
+      background: rgba(66, 133, 244, 0.1);
+      border: 1px solid rgba(66, 133, 244, 0.3);
       border-radius: 12px;
-      color: #0a0a0a;
-      font-size: 16px;
+      padding: 16px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .login-info-title {
+      font-size: 14px;
       font-weight: 600;
-      cursor: pointer;
+      color: #4285F4;
+      margin-bottom: 8px;
+    }
+
+    .login-info-text {
+      font-size: 13px;
+      color: #a0a0a0;
+      line-height: 1.5;
+    }
+
+    .login-info code {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #ffffff;
+    }
+
+    .google-btn-container {
       display: flex;
-      align-items: center;
       justify-content: center;
-      gap: 12px;
-      transition: all 0.2s;
-      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
-    }
-
-    .google-login-btn:hover {
-      background: #f0f0f0;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(255, 255, 255, 0.15);
-    }
-
-    .google-login-btn:active {
-      transform: translateY(0);
-    }
-
-    .google-icon {
-      width: 20px;
-      height: 20px;
+      margin-bottom: 24px;
+      min-height: 44px;
     }
 
     .login-footer {
-      margin-top: 24px;
       font-size: 13px;
       color: #606060;
       line-height: 1.5;
+    }
+
+    .login-steps {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 24px;
+      text-align: left;
+    }
+
+    .login-steps-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .login-steps ol {
+      padding-left: 20px;
+      color: #a0a0a0;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .login-steps li {
+      margin-bottom: 8px;
+    }
+
+    .login-steps a {
+      color: #4285F4;
+      text-decoration: none;
+    }
+
+    .login-steps a:hover {
+      text-decoration: underline;
     }
 
     .main-app {
@@ -669,19 +709,42 @@
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="app-container"><div class="login-screen" id="loginScreen">
+  <div class="app-container"><!-- Login Screen -->
+   <div class="login-screen" id="loginScreen">
     <div class="login-card">
      <div class="login-logo">
       EXAGON
      </div>
-     <p class="login-subtitle">Tu asistente AI potenciado por Google Gemini</p><button class="google-login-btn" id="googleLoginBtn">
-      <svg class="google-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" /> <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" /> <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" /> <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-      </svg> Continuar con Google </button>
+     <p class="login-subtitle">Tu asistente AI potenciado por Google Gemini</p>
+     <div class="login-info">
+      <div class="login-info-title">
+       ⚙️ Configuración requerida
+      </div>
+      <div class="login-info-text">
+       Para activar el login real de Google, necesitas agregar tu <code>CLIENT_ID</code> y tu <code>API_KEY</code> en el código.
+      </div>
+     </div>
+     <div class="google-btn-container" id="googleButtonDiv"></div>
      <div class="login-footer">
-      Al continuar, aceptas que tus chats se guardan de forma privada y segura.
+      Al iniciar sesión, tus chats se guardan de forma privada y segura en tu Canva Sheet.
+     </div>
+     <div class="login-steps">
+      <div class="login-steps-title">
+       📋 Cómo obtener tu Google Client ID:
+      </div>
+      <ol>
+       <li>Ve a <a href="https://console.cloud.google.com/" target="_blank">Google Cloud Console</a></li>
+       <li>Crea un proyecto nuevo (o usa uno existente)</li>
+       <li>Habilita "Google Identity Services"</li>
+       <li>Ve a Credenciales → Crear credenciales → ID de cliente de OAuth</li>
+       <li>Agrega la URL de tu Canva Code en "URIs autorizados"</li>
+       <li>Copia el CLIENT_ID y pégalo en el código</li>
+      </ol>
      </div>
     </div>
-   </div><div class="main-app" id="mainApp"><header class="header">
+   </div><!-- Main App (Hidden until login) -->
+   <div class="main-app" id="mainApp"><!-- Header -->
+    <header class="header">
      <div class="header-left"><button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
       <div class="logo" id="appTitle">
        EXAGON AI
@@ -691,13 +754,15 @@
       <div class="user-profile" id="userProfile"><img class="user-avatar" id="userAvatar" src="" alt="User avatar"> <span class="user-name" id="userName"></span>
       </div><button class="logout-btn" id="logoutBtn">Cerrar Sesión</button>
      </div>
-    </header><div class="sidebar-overlay" id="sidebarOverlay"></div>
+    </header><!-- Sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <nav class="sidebar" id="sidebar">
      <div class="sidebar-header">
       <h2 class="sidebar-title">Chats</h2><button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Close sidebar">×</button>
      </div><button class="new-chat-btn" id="newChatBtn"> <span>+</span> <span id="newChatButtonText">New Chat</span> </button>
      <div class="chat-history" id="chatHistory"></div>
-    </nav><main class="chat-container" id="chatContainer">
+    </nav><!-- Chat Container -->
+    <main class="chat-container" id="chatContainer">
      <div class="empty-state" id="emptyState">
       <div class="empty-logo">
        EXAGON
@@ -738,15 +803,17 @@
        </div>
       </div>
      </div>
-    </main><div class="input-container">
+    </main><!-- Input Area -->
+    <div class="input-container">
      <div class="input-wrapper"><textarea class="message-input" id="messageInput" rows="1" placeholder="Message EXAGON AI..." aria-label="Message input"></textarea> <button class="send-btn" id="sendBtn" aria-label="Send message" disabled> <span>➤</span> </button>
      </div>
     </div>
    </div>
   </div>
   <script>
-    // ⚠️ ATENCIÓN: Se eliminó GEMINI_API_KEY del frontend por seguridad.
-    // La comunicación ahora va al servidor de Express (/api/gemini).
+    // 🔐 CONFIGURACIÓN - AGREGA TUS KEYS AQUÍ (BIEN GUARDADAS)
+    const GOOGLE_CLIENT_ID = '55710386078-9kf0kmltf4s1s0bt876a7rd078rsdfjf.apps.googleusercontent.com'; // 👈 Tu Client ID de Google
+    const API_KEY = 'AIzaSyATiHUOVzzbXzQaxKXOfwEzSqa0-Sb9djY'; // 👈 Tu Gemini API Key (CÁMBIALA POR LA TUYA)
     
     // Default configuration
     const defaultConfig = {
@@ -768,37 +835,74 @@
     let allChats = [];
 
     // ========================================
-    // 🔑 GOOGLE LOGIN SIMULATION
+    // 🔑 GOOGLE OAUTH 2.0 REAL LOGIN
     // ========================================
-    // NOTA: Este es un sistema de login simulado para demostración
-    // En producción real, necesitarías usar Google OAuth 2.0 con un backend
     
-    function simulateGoogleLogin() {
-      // Simulamos el usuario de Google (en producción, esto vendría de Google OAuth)
-      const mockUser = {
-        id: 'user_' + Date.now(),
-        name: 'Usuario Demo',
-        email: 'demo@exagon.ai',
-        picture: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="%234285F4"/><text x="50" y="50" text-anchor="middle" dy=".3em" fill="white" font-size="40" font-family="Arial">U</text></svg>'
-      };
-      
-      return mockUser;
+    function initializeGoogleLogin() {
+      if (GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID_HERE') {
+        console.warn('⚠️ Google Client ID no configurado. Por favor agrega tu Client ID para activar el login real.');
+        return;
+      }
+
+      // Inicializar Google Identity Services
+      google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleCredentialResponse,
+        auto_select: false,
+        cancel_on_tap_outside: true
+      });
+
+      // Renderizar el botón de Google
+      google.accounts.id.renderButton(
+        document.getElementById("googleButtonDiv"),
+        { 
+          theme: "filled_black",
+          size: "large",
+          width: 350,
+          text: "continue_with",
+          locale: "es"
+        }
+      );
+
+      // Intentar login automático si hay sesión guardada
+      google.accounts.id.prompt();
     }
 
-    function handleLogin() {
-      // Simular login de Google
-      currentUser = simulateGoogleLogin();
+    function handleCredentialResponse(response) {
+      // Decodificar el JWT token de Google
+      const userObject = parseJwt(response.credential);
+      
+      currentUser = {
+        id: userObject.sub, // ID único de Google
+        name: userObject.name,
+        email: userObject.email,
+        picture: userObject.picture
+      };
       
       // Guardar sesión
       localStorage.setItem('exagon_user', JSON.stringify(currentUser));
+      localStorage.setItem('exagon_token', response.credential);
       
       // Mostrar app principal
       showMainApp();
     }
 
+    function parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
+    }
+
     function handleLogout() {
+      // Cerrar sesión de Google
+      google.accounts.id.disableAutoSelect();
+      
       currentUser = null;
       localStorage.removeItem('exagon_user');
+      localStorage.removeItem('exagon_token');
       
       // Limpiar estado
       currentChatId = null;
@@ -827,7 +931,9 @@
 
     function checkSession() {
       const savedUser = localStorage.getItem('exagon_user');
-      if (savedUser) {
+      const savedToken = localStorage.getItem('exagon_token');
+      
+      if (savedUser && savedToken) {
         currentUser = JSON.parse(savedUser);
         showMainApp();
       }
@@ -920,6 +1026,9 @@
 
       // Verificar si hay sesión guardada
       checkSession();
+      
+      // Inicializar Google Login
+      initializeGoogleLogin();
     }
 
     function adjustBrightness(color, percent) {
@@ -1068,7 +1177,6 @@
       }
     }
 
-    // ⭐ NUEVA LÓGICA DE ENVÍO DE MENSAJES (Utiliza el backend proxy)
     async function sendMessage(content) {
       if (!content.trim() || isTyping || !currentUser) return;
       
@@ -1082,42 +1190,62 @@
       isTyping = true;
       showTypingIndicator();
       
-      let aiResponse = '';
+      await callGeminiAPI(content);
+    }
+
+    // ========================================
+    // 🚀 LLAMADA A GEMINI API (COMO TU AMIGA DIJO)
+    // ========================================
+    async function callGeminiAPI(mensajeDelUsuario) {
+      // Construir el endpoint con la API KEY
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+      
+      // Estructura del body
+      const data = {
+        contents: [{
+          parts: [{
+            text: mensajeDelUsuario
+          }]
+        }],
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 2048
+        }
+      };
       
       try {
-        const res = await fetch("/api/gemini", {
+        const response = await fetch(endpoint, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt: content })
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
         });
-
-        if (!res.ok) {
-          const errorData = await res.json().catch(() => ({}));
-          throw new Error(errorData.detail?.message || errorData.error || `Error ${res.status}`);
-        }
-
-        const data = await res.json();
         
-        // Asegúrate de que la estructura de la respuesta del backend coincide
-        if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
-          aiResponse = data.candidates[0].content.parts[0].text;
-        } else if (data.error) {
-           throw new Error(data.error);
-        } else {
-          throw new Error('Formato de respuesta de Gemini inesperado');
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error?.message || `Error ${response.status}`);
         }
-
-      } catch (error) {
-        aiResponse = `⚠️ Error al conectar con Gemini (a través del servidor):\n\n${error.message}\n\nVerifica que tu servidor Express esté corriendo en el puerto 3000 y que la API key sea válida.`;
-      } finally {
+        
+        const responseData = await response.json();
         hideTypingIndicator();
-        appendMessage('ai', aiResponse);
+        
+        // Extraer la respuesta del AI
+        const respuesta = responseData.candidates?.[0]?.content?.parts?.[0]?.text || "Sin respuesta";
+        appendMessage('ai', respuesta);
+        
         isTyping = false;
-        await saveCurrentChat(content, aiResponse);
+        await saveCurrentChat(mensajeDelUsuario, respuesta);
+        
+      } catch (error) {
+        hideTypingIndicator();
+        
+        let errorMessage = `⚠️ Error al conectar con Gemini:\n\n${error.message}\n\nVerifica tu API_KEY y tu conexión a internet.`;
+        
+        appendMessage('ai', errorMessage);
+        isTyping = false;
       }
     }
-    
-    // Función original callGeminiAPI ELIMINADA y su lógica trasladada a sendMessage
 
     async function saveCurrentChat(userMessage, aiResponse) {
       if (!currentUser) return;
@@ -1206,9 +1334,6 @@
 
     // Event Listeners
     document.addEventListener('DOMContentLoaded', () => {
-      // Login button
-      document.getElementById('googleLoginBtn').addEventListener('click', handleLogin);
-      
       // Logout button
       document.getElementById('logoutBtn').addEventListener('click', handleLogout);
       
@@ -1256,5 +1381,5 @@
       initializeApp();
     });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a41560a3086a8a6',t:'MTc2NDA3NTcwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-                               </html>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a43286cd60d0feb',t:'MTc2NDA5NDgwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
