@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EXAGON AI</title>
+  <title>EXAGON AI - Login with Google</title>
   <script src="/_sdk/data_sdk.js"></script>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
@@ -33,6 +33,97 @@
       display: flex;
       flex-direction: column;
       position: relative;
+    }
+
+    /* Login Screen */
+    .login-screen {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      padding: 20px;
+    }
+
+    .login-card {
+      background: linear-gradient(135deg, #1a1a1a 0%, #141414 100%);
+      border: 1px solid #2a2a2a;
+      border-radius: 20px;
+      padding: 40px 32px;
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .login-logo {
+      font-size: 56px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #ffffff 0%, #606060 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+
+    .login-subtitle {
+      font-size: 18px;
+      color: #808080;
+      margin-bottom: 40px;
+      line-height: 1.4;
+    }
+
+    .google-login-btn {
+      width: 100%;
+      padding: 14px 24px;
+      background: #ffffff;
+      border: none;
+      border-radius: 12px;
+      color: #0a0a0a;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    }
+
+    .google-login-btn:hover {
+      background: #f0f0f0;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(255, 255, 255, 0.15);
+    }
+
+    .google-login-btn:active {
+      transform: translateY(0);
+    }
+
+    .google-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .login-footer {
+      margin-top: 24px;
+      font-size: 13px;
+      color: #606060;
+      line-height: 1.5;
+    }
+
+    .main-app {
+      display: none;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+    }
+
+    .main-app.active {
+      display: flex;
     }
 
     /* Header */
@@ -81,22 +172,53 @@
       background-clip: text;
     }
 
-    .settings-btn {
-      background: none;
-      border: none;
-      color: #b0b0b0;
-      font-size: 20px;
-      cursor: pointer;
-      padding: 8px;
+    .header-right {
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 12px;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 20px;
+      transition: background 0.2s;
+    }
+
+    .user-profile:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid #3a3a3a;
+    }
+
+    .user-name {
+      font-size: 14px;
+      color: #ffffff;
+      display: none;
+    }
+
+    .logout-btn {
+      background: none;
+      border: 1px solid #2a2a2a;
+      color: #b0b0b0;
+      padding: 8px 16px;
       border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
       transition: all 0.2s;
     }
 
-    .settings-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
+    .logout-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: #3a3a3a;
       color: #ffffff;
     }
 
@@ -500,179 +622,24 @@
       cursor: not-allowed;
     }
 
-    /* Settings Modal */
-    .settings-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(4px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 300;
-      padding: 20px;
-    }
-
-    .settings-modal.open {
-      display: flex;
-    }
-
-    .settings-content {
-      background: #141414;
-      border: 1px solid #2a2a2a;
-      border-radius: 16px;
-      width: 100%;
-      max-width: 400px;
-      max-height: 80%;
-      overflow-y: auto;
-    }
-
-    .settings-header {
-      padding: 20px;
-      border-bottom: 1px solid #2a2a2a;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .settings-title {
-      font-size: 20px;
-      font-weight: 600;
-      color: #ffffff;
-    }
-
-    .close-settings-btn {
-      background: none;
-      border: none;
-      color: #b0b0b0;
-      font-size: 24px;
-      cursor: pointer;
-      padding: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 6px;
-      transition: all 0.2s;
-    }
-
-    .close-settings-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
-    }
-
-    .settings-body {
-      padding: 20px;
-    }
-
-    .settings-item {
-      padding: 16px 0;
-      border-bottom: 1px solid #1a1a1a;
-    }
-
-    .settings-item:last-child {
-      border-bottom: none;
-    }
-
-    .settings-label {
-      font-size: 15px;
-      font-weight: 500;
-      color: #ffffff;
-      margin-bottom: 4px;
-    }
-
-    .settings-description {
-      font-size: 13px;
-      color: #808080;
-    }
-
-    .api-key-section {
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 20px;
-    }
-
-    .api-key-label {
-      font-size: 14px;
-      font-weight: 600;
-      color: #ffffff;
-      margin-bottom: 8px;
-      display: block;
-    }
-
-    .api-key-input {
-      width: 100%;
-      background: #0a0a0a;
-      border: 1px solid #2a2a2a;
-      border-radius: 8px;
-      padding: 10px 12px;
-      color: #ffffff;
-      font-size: 14px;
-      font-family: 'Courier New', monospace;
-      margin-bottom: 8px;
-    }
-
-    .api-key-input:focus {
-      outline: none;
-      border-color: #3a3a3a;
-    }
-
-    .api-key-hint {
-      font-size: 12px;
-      color: #808080;
-      line-height: 1.4;
-    }
-
-    .api-key-hint a {
-      color: #ffffff;
-      text-decoration: underline;
-    }
-
-    .save-key-btn {
-      width: 100%;
-      padding: 10px;
-      background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
-      border: 1px solid #3a3a3a;
-      color: #ffffff;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 8px;
-    }
-
-    .save-key-btn:hover {
-      background: linear-gradient(135deg, #333333 0%, #2a2a2a 100%);
-      transform: translateY(-1px);
-    }
-
     .chat-history::-webkit-scrollbar,
-    .chat-container::-webkit-scrollbar,
-    .settings-content::-webkit-scrollbar {
+    .chat-container::-webkit-scrollbar {
       width: 6px;
     }
 
     .chat-history::-webkit-scrollbar-track,
-    .chat-container::-webkit-scrollbar-track,
-    .settings-content::-webkit-scrollbar-track {
+    .chat-container::-webkit-scrollbar-track {
       background: transparent;
     }
 
     .chat-history::-webkit-scrollbar-thumb,
-    .chat-container::-webkit-scrollbar-thumb,
-    .settings-content::-webkit-scrollbar-thumb {
+    .chat-container::-webkit-scrollbar-thumb {
       background: #2a2a2a;
       border-radius: 3px;
     }
 
     .chat-history::-webkit-scrollbar-thumb:hover,
-    .chat-container::-webkit-scrollbar-thumb:hover,
-    .settings-content::-webkit-scrollbar-thumb:hover {
+    .chat-container::-webkit-scrollbar-thumb:hover {
       background: #3a3a3a;
     }
 
@@ -692,114 +659,101 @@
       .suggestion-grid {
         grid-template-columns: 1fr 1fr;
       }
+
+      .user-name {
+        display: block;
+      }
     }
   </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="app-container"><!-- Header -->
-   <header class="header">
-    <div class="header-left"><button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
-     <div class="logo" id="appTitle">
-      EXAGON AI
-     </div>
-    </div><button class="settings-btn" id="settingsBtn" aria-label="Settings">⚙</button>
-   </header><!-- Sidebar -->
-   <div class="sidebar-overlay" id="sidebarOverlay"></div>
-   <nav class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-     <h2 class="sidebar-title">Chats</h2><button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Close sidebar">×</button>
-    </div><button class="new-chat-btn" id="newChatBtn"> <span>+</span> <span id="newChatButtonText">New Chat</span> </button>
-    <div class="chat-history" id="chatHistory"><!-- Chat items will be dynamically added here -->
-    </div>
-   </nav><!-- Chat Container -->
-   <main class="chat-container" id="chatContainer">
-    <div class="empty-state" id="emptyState">
-     <div class="empty-logo">
+  <div class="app-container"><!-- Login Screen -->
+   <div class="login-screen" id="loginScreen">
+    <div class="login-card">
+     <div class="login-logo">
       EXAGON
      </div>
-     <p class="empty-message" id="welcomeMessage">How can I help you today?</p>
-     <div class="suggestion-grid">
-      <div class="suggestion-card" data-prompt="Explícame qué es el machine learning de forma simple">
-       <div class="suggestion-title">
-        Machine Learning
-       </div>
-       <div class="suggestion-desc">
-        Explicación simple
-       </div>
+     <p class="login-subtitle">Tu asistente AI potenciado por Google Gemini</p><button class="google-login-btn" id="googleLoginBtn">
+      <svg class="google-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" /> <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" /> <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" /> <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+      </svg> Continuar con Google </button>
+     <div class="login-footer">
+      Al continuar, aceptas que tus chats se guardan de forma privada y segura.
+     </div>
+    </div>
+   </div><!-- Main App (Hidden until login) -->
+   <div class="main-app" id="mainApp"><!-- Header -->
+    <header class="header">
+     <div class="header-left"><button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      <div class="logo" id="appTitle">
+       EXAGON AI
       </div>
-      <div class="suggestion-card" data-prompt="Escríbeme un código HTML para una landing page moderna">
-       <div class="suggestion-title">
-        Código HTML
-       </div>
-       <div class="suggestion-desc">
-        Landing page moderna
-       </div>
+     </div>
+     <div class="header-right">
+      <div class="user-profile" id="userProfile"><img class="user-avatar" id="userAvatar" src="" alt="User avatar"> <span class="user-name" id="userName"></span>
+      </div><button class="logout-btn" id="logoutBtn">Cerrar Sesión</button>
+     </div>
+    </header><!-- Sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <nav class="sidebar" id="sidebar">
+     <div class="sidebar-header">
+      <h2 class="sidebar-title">Chats</h2><button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Close sidebar">×</button>
+     </div><button class="new-chat-btn" id="newChatBtn"> <span>+</span> <span id="newChatButtonText">New Chat</span> </button>
+     <div class="chat-history" id="chatHistory"></div>
+    </nav><!-- Chat Container -->
+    <main class="chat-container" id="chatContainer">
+     <div class="empty-state" id="emptyState">
+      <div class="empty-logo">
+       EXAGON
       </div>
-      <div class="suggestion-card" data-prompt="Dame ideas para un proyecto de programación">
-       <div class="suggestion-title">
-        Ideas de Proyectos
+      <p class="empty-message" id="welcomeMessage">How can I help you today?</p>
+      <div class="suggestion-grid">
+       <div class="suggestion-card" data-prompt="Explícame qué es el machine learning de forma simple">
+        <div class="suggestion-title">
+         Machine Learning
+        </div>
+        <div class="suggestion-desc">
+         Explicación simple
+        </div>
        </div>
-       <div class="suggestion-desc">
-        Para programar
+       <div class="suggestion-card" data-prompt="Escríbeme un código HTML para una landing page moderna">
+        <div class="suggestion-title">
+         Código HTML
+        </div>
+        <div class="suggestion-desc">
+         Landing page moderna
+        </div>
        </div>
-      </div>
-      <div class="suggestion-card" data-prompt="Enséñame JavaScript desde cero">
-       <div class="suggestion-title">
-        Aprender JavaScript
+       <div class="suggestion-card" data-prompt="Dame ideas para un proyecto de programación">
+        <div class="suggestion-title">
+         Ideas de Proyectos
+        </div>
+        <div class="suggestion-desc">
+         Para programar
+        </div>
        </div>
-       <div class="suggestion-desc">
-        Desde cero
+       <div class="suggestion-card" data-prompt="Enséñame JavaScript desde cero">
+        <div class="suggestion-title">
+         Aprender JavaScript
+        </div>
+        <div class="suggestion-desc">
+         Desde cero
+        </div>
        </div>
       </div>
      </div>
-    </div>
-   </main><!-- Input Area -->
-   <div class="input-container">
-    <div class="input-wrapper"><textarea class="message-input" id="messageInput" rows="1" placeholder="Message EXAGON AI..." aria-label="Message input"></textarea> <button class="send-btn" id="sendBtn" aria-label="Send message" disabled> <span>➤</span> </button>
-    </div>
-   </div><!-- Settings Modal -->
-   <div class="settings-modal" id="settingsModal">
-    <div class="settings-content">
-     <div class="settings-header">
-      <h2 class="settings-title">Settings</h2><button class="close-settings-btn" id="closeSettingsBtn" aria-label="Close settings">×</button>
-     </div>
-     <div class="settings-body">
-      <div class="api-key-section"><label class="api-key-label" for="apiKeyInput">🔑 Google Gemini API Key</label> <input type="password" id="apiKeyInput" class="api-key-input" placeholder="Pega aquí tu API key...">
-       <div class="api-key-hint">
-        Consigue tu API key GRATIS en: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio</a>
-       </div><button class="save-key-btn" id="saveKeyBtn">Guardar API Key</button>
-      </div>
-      <div class="settings-item">
-       <div class="settings-label">
-        Dark Mode
-       </div>
-       <div class="settings-description">
-        Siempre activo para mejor experiencia
-       </div>
-      </div>
-      <div class="settings-item">
-       <div class="settings-label">
-        Modelo
-       </div>
-       <div class="settings-description">
-        Gemini 1.5 Flash (Rápido y gratis)
-       </div>
-      </div>
-      <div class="settings-item">
-       <div class="settings-label">
-        About
-       </div>
-       <div class="settings-description">
-        EXAGON AI v1.0 - Powered by Google Gemini
-       </div>
-      </div>
+    </main><!-- Input Area -->
+    <div class="input-container">
+     <div class="input-wrapper"><textarea class="message-input" id="messageInput" rows="1" placeholder="Message EXAGON AI..." aria-label="Message input"></textarea> <button class="send-btn" id="sendBtn" aria-label="Send message" disabled> <span>➤</span> </button>
      </div>
     </div>
    </div>
   </div>
   <script>
+    // 🔐 CONFIGURACIÓN
+    const GEMINI_API_KEY = 'AIzaSyCnvVxNm82EnmQ4Q87gfXBPeG12bTfMuNU';
+    
     // Default configuration
     const defaultConfig = {
       app_title: "EXAGON AI",
@@ -814,16 +768,87 @@
     };
 
     // State
+    let currentUser = null;
     let currentChatId = null;
     let isTyping = false;
     let allChats = [];
-    let geminiApiKey = localStorage.getItem('gemini_api_key') || '';
+
+    // ========================================
+    // 🔑 GOOGLE LOGIN SIMULATION
+    // ========================================
+    // NOTA: Este es un sistema de login simulado para demostración
+    // En producción real, necesitarías usar Google OAuth 2.0 con un backend
+    
+    function simulateGoogleLogin() {
+      // Simulamos el usuario de Google (en producción, esto vendría de Google OAuth)
+      const mockUser = {
+        id: 'user_' + Date.now(),
+        name: 'Usuario Demo',
+        email: 'demo@exagon.ai',
+        picture: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="%234285F4"/><text x="50" y="50" text-anchor="middle" dy=".3em" fill="white" font-size="40" font-family="Arial">U</text></svg>'
+      };
+      
+      return mockUser;
+    }
+
+    function handleLogin() {
+      // Simular login de Google
+      currentUser = simulateGoogleLogin();
+      
+      // Guardar sesión
+      localStorage.setItem('exagon_user', JSON.stringify(currentUser));
+      
+      // Mostrar app principal
+      showMainApp();
+    }
+
+    function handleLogout() {
+      currentUser = null;
+      localStorage.removeItem('exagon_user');
+      
+      // Limpiar estado
+      currentChatId = null;
+      allChats = [];
+      
+      // Volver a login
+      showLoginScreen();
+    }
+
+    function showMainApp() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('mainApp').classList.add('active');
+      
+      // Mostrar info del usuario
+      document.getElementById('userName').textContent = currentUser.name;
+      document.getElementById('userAvatar').src = currentUser.picture;
+      
+      // Cargar chats del usuario
+      loadUserChats();
+    }
+
+    function showLoginScreen() {
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('mainApp').classList.remove('active');
+    }
+
+    function checkSession() {
+      const savedUser = localStorage.getItem('exagon_user');
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        showMainApp();
+      }
+    }
 
     // Data SDK Handler
     const dataHandler = {
       onDataChanged(data) {
-        allChats = data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-        renderChatHistory();
+        // Filtrar solo los chats del usuario actual
+        if (currentUser) {
+          allChats = data
+            .filter(chat => chat.user_id === currentUser.id)
+            .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+          renderChatHistory();
+        }
       }
     };
 
@@ -832,11 +857,6 @@
       const initResult = await window.dataSdk.init(dataHandler);
       if (!initResult.isOk) {
         console.error("Failed to initialize data SDK");
-      }
-
-      // Load saved API key
-      if (geminiApiKey) {
-        document.getElementById('apiKeyInput').value = geminiApiKey;
       }
 
       if (window.elementSdk) {
@@ -849,14 +869,9 @@
             document.getElementById('messageInput').placeholder = config.placeholder_text || defaultConfig.placeholder_text;
             
             document.body.style.background = config.background_color || defaultConfig.background_color;
-            document.documentElement.style.setProperty('--surface-color', config.surface_color || defaultConfig.surface_color);
-            document.documentElement.style.setProperty('--text-color', config.text_color || defaultConfig.text_color);
             
             const sendBtn = document.getElementById('sendBtn');
             sendBtn.style.background = `linear-gradient(135deg, ${config.primary_action_color || defaultConfig.primary_action_color} 0%, ${adjustBrightness(config.primary_action_color || defaultConfig.primary_action_color, -20)} 100%)`;
-            
-            const settingsBtn = document.getElementById('settingsBtn');
-            settingsBtn.style.color = config.secondary_action_color || defaultConfig.secondary_action_color;
           },
           mapToCapabilities: (config) => ({
             recolorables: [
@@ -908,6 +923,9 @@
           ])
         });
       }
+
+      // Verificar si hay sesión guardada
+      checkSession();
     }
 
     function adjustBrightness(color, percent) {
@@ -919,6 +937,10 @@
       return "#" + (0x1000000 + (R<255?R<1?0:R:255)*0x10000 +
         (G<255?G<1?0:G:255)*0x100 + (B<255?B<1?0:B:255))
         .toString(16).slice(1);
+    }
+
+    function loadUserChats() {
+      // Los chats se cargarán automáticamente a través de onDataChanged
     }
 
     // UI Functions
@@ -1053,7 +1075,7 @@
     }
 
     async function sendMessage(content) {
-      if (!content.trim() || isTyping) return;
+      if (!content.trim() || isTyping || !currentUser) return;
       
       appendMessage('user', content);
       
@@ -1065,20 +1087,13 @@
       isTyping = true;
       showTypingIndicator();
       
-      // Call Gemini API
       await callGeminiAPI(content);
     }
 
     async function callGeminiAPI(userMessage) {
-      // ⚡ GOOGLE GEMINI API INTEGRATION
-      const apiKey = geminiApiKey;
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
       
       try {
-        if (!apiKey || apiKey.trim() === '') {
-          throw new Error('NO_API_KEY');
-        }
-
         const response = await fetch(apiUrl, {
           method: 'POST',
           headers: {
@@ -1099,35 +1114,22 @@
         
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}));
-          throw new Error(errorData.error?.message || `API Error: ${response.status}`);
+          throw new Error(errorData.error?.message || `Error ${response.status}`);
         }
         
         const data = await response.json();
         hideTypingIndicator();
         
-        // Extract AI response from Gemini's response format
         const aiResponse = data.candidates[0].content.parts[0].text;
         appendMessage('ai', aiResponse);
         
         isTyping = false;
-        
-        // Save to chat history
         await saveCurrentChat(userMessage, aiResponse);
         
       } catch (error) {
         hideTypingIndicator();
         
-        // Provide helpful error messages
-        let errorMessage;
-        if (error.message === 'NO_API_KEY') {
-          errorMessage = "⚠️ No has configurado tu API key de Gemini.\n\n👉 Ve a Ajustes (⚙) y añade tu API key gratuita.\n\n🔗 Consíguela en: https://aistudio.google.com/apikey";
-        } else if (error.message.includes('API_KEY_INVALID') || error.message.includes('400')) {
-          errorMessage = "⚠️ Tu API key parece incorrecta.\n\n👉 Verifica que la copiaste completa desde Google AI Studio.\n\n🔗 https://aistudio.google.com/apikey";
-        } else if (error.message.includes('RATE_LIMIT') || error.message.includes('429')) {
-          errorMessage = "⚠️ Has alcanzado el límite de requests.\n\nEspera unos segundos e intenta de nuevo.";
-        } else {
-          errorMessage = `⚠️ Error de conexión:\n${error.message}\n\nVerifica tu conexión a internet y tu API key.`;
-        }
+        let errorMessage = `⚠️ Error al conectar con Gemini:\n\n${error.message}\n\nVerifica tu conexión a internet.`;
         
         appendMessage('ai', errorMessage);
         isTyping = false;
@@ -1135,15 +1137,27 @@
     }
 
     async function saveCurrentChat(userMessage, aiResponse) {
+      if (!currentUser) return;
+      
       if (allChats.length >= 999) {
-        showLimitWarning();
+        const chatContainer = document.getElementById('chatContainer');
+        const warningDiv = document.createElement('div');
+        warningDiv.className = 'message ai';
+        warningDiv.innerHTML = `
+          <div class="message-avatar">⚠</div>
+          <div class="message-content">
+            <div class="message-text">Límite máximo de 999 chats alcanzado. Por favor elimina algunos chats para continuar.</div>
+          </div>
+        `;
+        chatContainer.appendChild(warningDiv);
+        scrollToBottom();
         return;
       }
       
       if (!currentChatId) {
-        // Create new chat
         const newChat = {
-          id: `chat_${Date.now()}`,
+          id: `chat_${currentUser.id}_${Date.now()}`,
+          user_id: currentUser.id,
           title: userMessage.slice(0, 50) + (userMessage.length > 50 ? '...' : ''),
           preview: userMessage.slice(0, 60),
           timestamp: new Date().toISOString(),
@@ -1154,12 +1168,8 @@
         };
         
         currentChatId = newChat.id;
-        const result = await window.dataSdk.create(newChat);
-        if (!result.isOk) {
-          console.error("Failed to create chat");
-        }
+        await window.dataSdk.create(newChat);
       } else {
-        // Update existing chat
         const chat = allChats.find(c => c.id === currentChatId);
         if (chat) {
           const messages = JSON.parse(chat.messages);
@@ -1173,26 +1183,9 @@
             timestamp: new Date().toISOString()
           };
           
-          const result = await window.dataSdk.update(updatedChat);
-          if (!result.isOk) {
-            console.error("Failed to update chat");
-          }
+          await window.dataSdk.update(updatedChat);
         }
       }
-    }
-
-    function showLimitWarning() {
-      const chatContainer = document.getElementById('chatContainer');
-      const warningDiv = document.createElement('div');
-      warningDiv.className = 'message ai';
-      warningDiv.innerHTML = `
-        <div class="message-avatar">⚠</div>
-        <div class="message-content">
-          <div class="message-text">Límite máximo de 999 chats alcanzado. Por favor elimina algunos chats para continuar.</div>
-        </div>
-      `;
-      chatContainer.appendChild(warningDiv);
-      scrollToBottom();
     }
 
     function scrollToBottom() {
@@ -1222,54 +1215,26 @@
       document.getElementById('sidebarOverlay').classList.remove('visible');
     }
 
-    function openSettings() {
-      document.getElementById('settingsModal').classList.add('open');
-    }
-
-    function closeSettings() {
-      document.getElementById('settingsModal').classList.remove('open');
-    }
-
     function createNewChat() {
       currentChatId = null;
       showEmptyState();
       document.getElementById('messageInput').focus();
     }
 
-    function saveApiKey() {
-      const apiKeyInput = document.getElementById('apiKeyInput');
-      const newKey = apiKeyInput.value.trim();
-      
-      if (newKey) {
-        geminiApiKey = newKey;
-        localStorage.setItem('gemini_api_key', newKey);
-        
-        // Visual feedback
-        const saveBtn = document.getElementById('saveKeyBtn');
-        const originalText = saveBtn.textContent;
-        saveBtn.textContent = '✓ Guardada!';
-        saveBtn.style.background = 'linear-gradient(135deg, #1a4d1a 0%, #0f3a0f 100%)';
-        
-        setTimeout(() => {
-          saveBtn.textContent = originalText;
-          saveBtn.style.background = '';
-          closeSettings();
-        }, 1500);
-      }
-    }
-
     // Event Listeners
     document.addEventListener('DOMContentLoaded', () => {
+      // Login button
+      document.getElementById('googleLoginBtn').addEventListener('click', handleLogin);
+      
+      // Logout button
+      document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+      
       const messageInput = document.getElementById('messageInput');
       const sendBtn = document.getElementById('sendBtn');
       const menuBtn = document.getElementById('menuBtn');
       const closeSidebarBtn = document.getElementById('closeSidebarBtn');
       const sidebarOverlay = document.getElementById('sidebarOverlay');
       const newChatBtn = document.getElementById('newChatBtn');
-      const settingsBtn = document.getElementById('settingsBtn');
-      const closeSettingsBtn = document.getElementById('closeSettingsBtn');
-      const settingsModal = document.getElementById('settingsModal');
-      const saveKeyBtn = document.getElementById('saveKeyBtn');
       
       messageInput.addEventListener('input', () => {
         updateSendButton();
@@ -1296,16 +1261,6 @@
         closeSidebar();
       });
       
-      settingsBtn.addEventListener('click', openSettings);
-      closeSettingsBtn.addEventListener('click', closeSettings);
-      saveKeyBtn.addEventListener('click', saveApiKey);
-      settingsModal.addEventListener('click', (e) => {
-        if (e.target === settingsModal) {
-          closeSettings();
-        }
-      });
-      
-      // Suggestion cards
       document.querySelectorAll('.suggestion-card').forEach(card => {
         card.addEventListener('click', () => {
           const prompt = card.getAttribute('data-prompt');
@@ -1318,5 +1273,5 @@
       initializeApp();
     });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a3fad85338c2ef6',t:'MTc2NDA1ODMxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a3fdef904662ef6',t:'MTc2NDA2MDMzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ </html>
