@@ -385,6 +385,7 @@
       line-height: 1.6;
       color: #ffffff;
       word-wrap: break-word;
+      white-space: pre-wrap;
     }
 
     .message.user .message-text {
@@ -587,6 +588,69 @@
       color: #808080;
     }
 
+    .api-key-section {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .api-key-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .api-key-input {
+      width: 100%;
+      background: #0a0a0a;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: #ffffff;
+      font-size: 14px;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 8px;
+    }
+
+    .api-key-input:focus {
+      outline: none;
+      border-color: #3a3a3a;
+    }
+
+    .api-key-hint {
+      font-size: 12px;
+      color: #808080;
+      line-height: 1.4;
+    }
+
+    .api-key-hint a {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .save-key-btn {
+      width: 100%;
+      padding: 10px;
+      background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+      border: 1px solid #3a3a3a;
+      color: #ffffff;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+
+    .save-key-btn:hover {
+      background: linear-gradient(135deg, #333333 0%, #2a2a2a 100%);
+      transform: translateY(-1px);
+    }
+
     .chat-history::-webkit-scrollbar,
     .chat-container::-webkit-scrollbar,
     .settings-content::-webkit-scrollbar {
@@ -657,36 +721,36 @@
      </div>
      <p class="empty-message" id="welcomeMessage">How can I help you today?</p>
      <div class="suggestion-grid">
-      <div class="suggestion-card" data-prompt="Explain quantum computing in simple terms">
+      <div class="suggestion-card" data-prompt="Explícame qué es el machine learning de forma simple">
        <div class="suggestion-title">
-        Quantum Computing
+        Machine Learning
        </div>
        <div class="suggestion-desc">
-        Explain in simple terms
+        Explicación simple
        </div>
       </div>
-      <div class="suggestion-card" data-prompt="Write a creative story about space exploration">
+      <div class="suggestion-card" data-prompt="Escríbeme un código HTML para una landing page moderna">
        <div class="suggestion-title">
-        Creative Writing
+        Código HTML
        </div>
        <div class="suggestion-desc">
-        Space exploration story
+        Landing page moderna
        </div>
       </div>
-      <div class="suggestion-card" data-prompt="Help me plan a healthy weekly meal">
+      <div class="suggestion-card" data-prompt="Dame ideas para un proyecto de programación">
        <div class="suggestion-title">
-        Meal Planning
+        Ideas de Proyectos
        </div>
        <div class="suggestion-desc">
-        Healthy weekly meals
+        Para programar
        </div>
       </div>
-      <div class="suggestion-card" data-prompt="Teach me basic photography tips">
+      <div class="suggestion-card" data-prompt="Enséñame JavaScript desde cero">
        <div class="suggestion-title">
-        Photography Tips
+        Aprender JavaScript
        </div>
        <div class="suggestion-desc">
-        Learn the basics
+        Desde cero
        </div>
       </div>
      </div>
@@ -702,28 +766,25 @@
       <h2 class="settings-title">Settings</h2><button class="close-settings-btn" id="closeSettingsBtn" aria-label="Close settings">×</button>
      </div>
      <div class="settings-body">
+      <div class="api-key-section"><label class="api-key-label" for="apiKeyInput">🔑 Google Gemini API Key</label> <input type="password" id="apiKeyInput" class="api-key-input" placeholder="Pega aquí tu API key...">
+       <div class="api-key-hint">
+        Consigue tu API key GRATIS en: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio</a>
+       </div><button class="save-key-btn" id="saveKeyBtn">Guardar API Key</button>
+      </div>
       <div class="settings-item">
        <div class="settings-label">
         Dark Mode
        </div>
        <div class="settings-description">
-        Always enabled for optimal experience
+        Siempre activo para mejor experiencia
        </div>
       </div>
       <div class="settings-item">
        <div class="settings-label">
-        Account
+        Modelo
        </div>
        <div class="settings-description">
-        Manage your account settings
-       </div>
-      </div>
-      <div class="settings-item">
-       <div class="settings-label">
-        Data &amp; Privacy
-       </div>
-       <div class="settings-description">
-        Control your data preferences
+        Gemini 1.5 Flash (Rápido y gratis)
        </div>
       </div>
       <div class="settings-item">
@@ -731,7 +792,7 @@
         About
        </div>
        <div class="settings-description">
-        EXAGON AI v1.0 - API Ready
+        EXAGON AI v1.0 - Powered by Google Gemini
        </div>
       </div>
      </div>
@@ -756,6 +817,7 @@
     let currentChatId = null;
     let isTyping = false;
     let allChats = [];
+    let geminiApiKey = localStorage.getItem('gemini_api_key') || '';
 
     // Data SDK Handler
     const dataHandler = {
@@ -770,6 +832,11 @@
       const initResult = await window.dataSdk.init(dataHandler);
       if (!initResult.isOk) {
         console.error("Failed to initialize data SDK");
+      }
+
+      // Load saved API key
+      if (geminiApiKey) {
+        document.getElementById('apiKeyInput').value = geminiApiKey;
       }
 
       if (window.elementSdk) {
@@ -998,32 +1065,73 @@
       isTyping = true;
       showTypingIndicator();
       
-      // Simulate AI response (API placeholder)
-      await simulateAIResponse(content);
+      // Call Gemini API
+      await callGeminiAPI(content);
     }
 
-    async function simulateAIResponse(userMessage) {
-      // This is a placeholder for API integration
-      // In production, replace this with actual API call
+    async function callGeminiAPI(userMessage) {
+      // ⚡ GOOGLE GEMINI API INTEGRATION
+      const apiKey = geminiApiKey;
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
       
-      await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 1000));
-      
-      hideTypingIndicator();
-      
-      const responses = [
-        "I understand your question. In a production environment, this would connect to an AI API to generate intelligent responses based on your input.",
-        "Great question! This interface is ready for API integration. You would configure your API endpoint and authentication here.",
-        "I'm designed to work with various AI APIs like OpenAI, Anthropic, or custom endpoints. The response you're seeing is a placeholder for demonstration.",
-        "This chat interface is fully functional and ready to connect to your preferred AI service. All the UI elements are working as expected."
-      ];
-      
-      const aiResponse = responses[Math.floor(Math.random() * responses.length)];
-      appendMessage('ai', aiResponse);
-      
-      isTyping = false;
-      
-      // Save to chat history
-      await saveCurrentChat(userMessage, aiResponse);
+      try {
+        if (!apiKey || apiKey.trim() === '') {
+          throw new Error('NO_API_KEY');
+        }
+
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: userMessage
+              }]
+            }],
+            generationConfig: {
+              temperature: 0.7,
+              maxOutputTokens: 2048,
+            }
+          })
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error?.message || `API Error: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        hideTypingIndicator();
+        
+        // Extract AI response from Gemini's response format
+        const aiResponse = data.candidates[0].content.parts[0].text;
+        appendMessage('ai', aiResponse);
+        
+        isTyping = false;
+        
+        // Save to chat history
+        await saveCurrentChat(userMessage, aiResponse);
+        
+      } catch (error) {
+        hideTypingIndicator();
+        
+        // Provide helpful error messages
+        let errorMessage;
+        if (error.message === 'NO_API_KEY') {
+          errorMessage = "⚠️ No has configurado tu API key de Gemini.\n\n👉 Ve a Ajustes (⚙) y añade tu API key gratuita.\n\n🔗 Consíguela en: https://aistudio.google.com/apikey";
+        } else if (error.message.includes('API_KEY_INVALID') || error.message.includes('400')) {
+          errorMessage = "⚠️ Tu API key parece incorrecta.\n\n👉 Verifica que la copiaste completa desde Google AI Studio.\n\n🔗 https://aistudio.google.com/apikey";
+        } else if (error.message.includes('RATE_LIMIT') || error.message.includes('429')) {
+          errorMessage = "⚠️ Has alcanzado el límite de requests.\n\nEspera unos segundos e intenta de nuevo.";
+        } else {
+          errorMessage = `⚠️ Error de conexión:\n${error.message}\n\nVerifica tu conexión a internet y tu API key.`;
+        }
+        
+        appendMessage('ai', errorMessage);
+        isTyping = false;
+      }
     }
 
     async function saveCurrentChat(userMessage, aiResponse) {
@@ -1080,7 +1188,7 @@
       warningDiv.innerHTML = `
         <div class="message-avatar">⚠</div>
         <div class="message-content">
-          <div class="message-text">Maximum limit of 999 chats reached. Please delete some chats to continue.</div>
+          <div class="message-text">Límite máximo de 999 chats alcanzado. Por favor elimina algunos chats para continuar.</div>
         </div>
       `;
       chatContainer.appendChild(warningDiv);
@@ -1128,6 +1236,28 @@
       document.getElementById('messageInput').focus();
     }
 
+    function saveApiKey() {
+      const apiKeyInput = document.getElementById('apiKeyInput');
+      const newKey = apiKeyInput.value.trim();
+      
+      if (newKey) {
+        geminiApiKey = newKey;
+        localStorage.setItem('gemini_api_key', newKey);
+        
+        // Visual feedback
+        const saveBtn = document.getElementById('saveKeyBtn');
+        const originalText = saveBtn.textContent;
+        saveBtn.textContent = '✓ Guardada!';
+        saveBtn.style.background = 'linear-gradient(135deg, #1a4d1a 0%, #0f3a0f 100%)';
+        
+        setTimeout(() => {
+          saveBtn.textContent = originalText;
+          saveBtn.style.background = '';
+          closeSettings();
+        }, 1500);
+      }
+    }
+
     // Event Listeners
     document.addEventListener('DOMContentLoaded', () => {
       const messageInput = document.getElementById('messageInput');
@@ -1139,6 +1269,7 @@
       const settingsBtn = document.getElementById('settingsBtn');
       const closeSettingsBtn = document.getElementById('closeSettingsBtn');
       const settingsModal = document.getElementById('settingsModal');
+      const saveKeyBtn = document.getElementById('saveKeyBtn');
       
       messageInput.addEventListener('input', () => {
         updateSendButton();
@@ -1167,6 +1298,7 @@
       
       settingsBtn.addEventListener('click', openSettings);
       closeSettingsBtn.addEventListener('click', closeSettings);
+      saveKeyBtn.addEventListener('click', saveApiKey);
       settingsModal.addEventListener('click', (e) => {
         if (e.target === settingsModal) {
           closeSettings();
@@ -1186,5 +1318,5 @@
       initializeApp();
     });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a3f944e56943efd',t:'MTc2NDA1NzI3OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a3fad85338c2ef6',t:'MTc2NDA1ODMxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
