@@ -669,8 +669,7 @@
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="app-container"><!-- Login Screen -->
-   <div class="login-screen" id="loginScreen">
+  <div class="app-container"><div class="login-screen" id="loginScreen">
     <div class="login-card">
      <div class="login-logo">
       EXAGON
@@ -682,9 +681,7 @@
       Al continuar, aceptas que tus chats se guardan de forma privada y segura.
      </div>
     </div>
-   </div><!-- Main App (Hidden until login) -->
-   <div class="main-app" id="mainApp"><!-- Header -->
-    <header class="header">
+   </div><div class="main-app" id="mainApp"><header class="header">
      <div class="header-left"><button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
       <div class="logo" id="appTitle">
        EXAGON AI
@@ -694,15 +691,13 @@
       <div class="user-profile" id="userProfile"><img class="user-avatar" id="userAvatar" src="" alt="User avatar"> <span class="user-name" id="userName"></span>
       </div><button class="logout-btn" id="logoutBtn">Cerrar Sesión</button>
      </div>
-    </header><!-- Sidebar -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    </header><div class="sidebar-overlay" id="sidebarOverlay"></div>
     <nav class="sidebar" id="sidebar">
      <div class="sidebar-header">
       <h2 class="sidebar-title">Chats</h2><button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Close sidebar">×</button>
      </div><button class="new-chat-btn" id="newChatBtn"> <span>+</span> <span id="newChatButtonText">New Chat</span> </button>
      <div class="chat-history" id="chatHistory"></div>
-    </nav><!-- Chat Container -->
-    <main class="chat-container" id="chatContainer">
+    </nav><main class="chat-container" id="chatContainer">
      <div class="empty-state" id="emptyState">
       <div class="empty-logo">
        EXAGON
@@ -743,16 +738,15 @@
        </div>
       </div>
      </div>
-    </main><!-- Input Area -->
-    <div class="input-container">
+    </main><div class="input-container">
      <div class="input-wrapper"><textarea class="message-input" id="messageInput" rows="1" placeholder="Message EXAGON AI..." aria-label="Message input"></textarea> <button class="send-btn" id="sendBtn" aria-label="Send message" disabled> <span>➤</span> </button>
      </div>
     </div>
    </div>
   </div>
   <script>
-    // 🔐 CONFIGURACIÓN
-    const GEMINI_API_KEY = 'AIzaSyCnvVxNm82EnmQ4Q87gfXBPeG12bTfMuNU';
+    // ⚠️ ATENCIÓN: Se eliminó GEMINI_API_KEY del frontend por seguridad.
+    // La comunicación ahora va al servidor de Express (/api/gemini).
     
     // Default configuration
     const defaultConfig = {
@@ -1074,6 +1068,7 @@
       }
     }
 
+    // ⭐ NUEVA LÓGICA DE ENVÍO DE MENSAJES (Utiliza el backend proxy)
     async function sendMessage(content) {
       if (!content.trim() || isTyping || !currentUser) return;
       
@@ -1087,54 +1082,42 @@
       isTyping = true;
       showTypingIndicator();
       
-      await callGeminiAPI(content);
-    }
-
-    async function callGeminiAPI(userMessage) {
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+      let aiResponse = '';
       
       try {
-        const response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{
-                text: userMessage
-              }]
-            }],
-            generationConfig: {
-              temperature: 0.7,
-              maxOutputTokens: 2048,
-            }
-          })
+        const res = await fetch("/api/gemini", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: content })
         });
-        
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          throw new Error(errorData.error?.message || `Error ${response.status}`);
+
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({}));
+          throw new Error(errorData.detail?.message || errorData.error || `Error ${res.status}`);
         }
+
+        const data = await res.json();
         
-        const data = await response.json();
-        hideTypingIndicator();
-        
-        const aiResponse = data.candidates[0].content.parts[0].text;
-        appendMessage('ai', aiResponse);
-        
-        isTyping = false;
-        await saveCurrentChat(userMessage, aiResponse);
-        
+        // Asegúrate de que la estructura de la respuesta del backend coincide
+        if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
+          aiResponse = data.candidates[0].content.parts[0].text;
+        } else if (data.error) {
+           throw new Error(data.error);
+        } else {
+          throw new Error('Formato de respuesta de Gemini inesperado');
+        }
+
       } catch (error) {
+        aiResponse = `⚠️ Error al conectar con Gemini (a través del servidor):\n\n${error.message}\n\nVerifica que tu servidor Express esté corriendo en el puerto 3000 y que la API key sea válida.`;
+      } finally {
         hideTypingIndicator();
-        
-        let errorMessage = `⚠️ Error al conectar con Gemini:\n\n${error.message}\n\nVerifica tu conexión a internet.`;
-        
-        appendMessage('ai', errorMessage);
+        appendMessage('ai', aiResponse);
         isTyping = false;
+        await saveCurrentChat(content, aiResponse);
       }
     }
+    
+    // Función original callGeminiAPI ELIMINADA y su lógica trasladada a sendMessage
 
     async function saveCurrentChat(userMessage, aiResponse) {
       if (!currentUser) return;
